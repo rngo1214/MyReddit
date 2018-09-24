@@ -5,7 +5,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.util.List;
+
 import randyngo.myreddit.model.Feed;
+import randyngo.myreddit.model.entry.Entry;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -34,8 +37,16 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<Feed>() {
             @Override
             public void onResponse(Call<Feed> call, Response<Feed> response) {
-                Log.d(TAG, "onResponse: feed: " + response.body().toString());
+                //Log.d(TAG, "onResponse: feed: " + response.body().toString());
                 Log.d(TAG, "onResponse: Server Response: " + response.toString());
+
+                List<Entry> entrys = response.body().getEntrys();
+
+                Log.d(TAG, "onResponse: entrys: " + response.body().getEntrys());
+
+                Log.d(TAG, "OnResponse: author: " + entrys.get(0).getAuthor());
+                Log.d(TAG, "OnResponse: updated: " + entrys.get(0).getUpdated());
+                Log.d(TAG, "OnResponse: title: " + entrys.get(0).getTitle());
             }
 
             @Override
