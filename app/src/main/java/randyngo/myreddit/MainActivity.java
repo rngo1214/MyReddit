@@ -48,6 +48,25 @@ public class MainActivity extends AppCompatActivity {
 //                Log.d(TAG, "OnResponse: updated: " + entrys.get(0).getUpdated());
 //                Log.d(TAG, "OnResponse: title: " + entrys.get(0).getTitle());
 
+                for (int i = 0; i < entrys.size(); i++) {
+                    ExtractXML extractXML1 = new ExtractXML(entrys.get(0).getContent(), "<a href=");
+                    List<String> postContent = extractXML1.start();
+
+                    ExtractXML extractXML2 = new ExtractXML(entrys.get(0).getContent(), "<img src=");
+
+                    try {
+                        postContent.add(extractXML2.start().get(0));
+                    }
+                    catch (NullPointerException e) {
+                        postContent.add(null);
+                        Log.e(TAG, "onResponse: NullPointerException(thumbnail): " + e.getMessage());
+                    }
+                    catch (IndexOutOfBoundsException e) {
+                        postContent.add(null);
+                        Log.e(TAG, "onResponse: IndexOutOfBoundsException(thumbnail): " + e.getMessage());
+                    }
+
+                }
 
             }
 

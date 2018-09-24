@@ -12,7 +12,7 @@ public class ExtractXML {
     private String tag;
     private String xml;
 
-    public ExtractXML(String tag, String xml) {
+    public ExtractXML(String xml, String tag) {
         this.tag = tag;
         this.xml = xml;
     }
@@ -21,7 +21,7 @@ public class ExtractXML {
         List<String> result = new ArrayList<>();
 
         String[] splitXML = xml.split(tag + "\"");
-        int count - splitXML.length;
+        int count = splitXML.length;
 
         for (int i = 1; i < count; i++) {
             String temp = splitXML[i];
