@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import randyngo.myreddit.model.Feed;
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
 //                Log.d(TAG, "OnResponse: updated: " + entrys.get(0).getUpdated());
 //                Log.d(TAG, "OnResponse: title: " + entrys.get(0).getTitle());
 
+                ArrayList<Post> posts = new ArrayList<Post>();
                 for (int i = 0; i < entrys.size(); i++) {
                     ExtractXML extractXML1 = new ExtractXML(entrys.get(0).getContent(), "<a href=");
                     List<String> postContent = extractXML1.start();
@@ -65,9 +67,24 @@ public class MainActivity extends AppCompatActivity {
                         postContent.add(null);
                         Log.e(TAG, "onResponse: IndexOutOfBoundsException(thumbnail): " + e.getMessage());
                     }
-
+                    int lastPostIndex = postContent.size() - 1;
+                    posts.add(new Post(
+                            entrys.get(i).getTitle(),
+                            entrys.get(i).getAuthor().getName(),
+                            entrys.get(i).getUpdated(),
+                            postContent.get(0),
+                            postContent.get(lastPostIndex)
+                    ));
                 }
 
+                for (int j = 0; j < posts.size(); j++) {
+                    Log.d(TAG, "onResponse: \n " +
+                            "PostURL: " + posts.get(j).getPostURL() + "\n " +
+                            "ThumbnailURL: " + posts.get(j).getThumhnailURL() + "\n " +
+                            "TItle: " + posts.get(j).getTitle() + "\n " +
+                            "Author: " + posts.get(j).getAuthor() + "\n " +
+                            "Date_updated: " + posts.get(j).getDate_updated() + "\n ");
+                }
             }
 
             @Override
