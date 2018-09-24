@@ -44,9 +44,11 @@ public class MainActivity extends AppCompatActivity {
 
                 Log.d(TAG, "onResponse: entrys: " + response.body().getEntrys());
 
-                Log.d(TAG, "OnResponse: author: " + entrys.get(0).getAuthor());
-                Log.d(TAG, "OnResponse: updated: " + entrys.get(0).getUpdated());
-                Log.d(TAG, "OnResponse: title: " + entrys.get(0).getTitle());
+//                Log.d(TAG, "OnResponse: author: " + entrys.get(0).getAuthor().getName());
+//                Log.d(TAG, "OnResponse: updated: " + entrys.get(0).getUpdated());
+//                Log.d(TAG, "OnResponse: title: " + entrys.get(0).getTitle());
+
+
             }
 
             @Override
