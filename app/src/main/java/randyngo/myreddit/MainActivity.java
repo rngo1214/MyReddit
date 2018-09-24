@@ -3,6 +3,7 @@ package randyngo.myreddit;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -49,12 +50,12 @@ public class MainActivity extends AppCompatActivity {
 //                Log.d(TAG, "OnResponse: updated: " + entrys.get(0).getUpdated());
 //                Log.d(TAG, "OnResponse: title: " + entrys.get(0).getTitle());
 
-                ArrayList<Post> posts = new ArrayList<Post>();
+                ArrayList<Post> posts = new ArrayList<>();
                 for (int i = 0; i < entrys.size(); i++) {
-                    ExtractXML extractXML1 = new ExtractXML(entrys.get(0).getContent(), "<a href=");
+                    ExtractXML extractXML1 = new ExtractXML(entrys.get(i).getContent(), "<a href=");
                     List<String> postContent = extractXML1.start();
 
-                    ExtractXML extractXML2 = new ExtractXML(entrys.get(0).getContent(), "<img src=");
+                    ExtractXML extractXML2 = new ExtractXML(entrys.get(i).getContent(), "<img src=");
 
                     try {
                         postContent.add(extractXML2.start().get(0));
@@ -77,14 +78,18 @@ public class MainActivity extends AppCompatActivity {
                     ));
                 }
 
-                for (int j = 0; j < posts.size(); j++) {
-                    Log.d(TAG, "onResponse: \n " +
-                            "PostURL: " + posts.get(j).getPostURL() + "\n " +
-                            "ThumbnailURL: " + posts.get(j).getThumhnailURL() + "\n " +
-                            "TItle: " + posts.get(j).getTitle() + "\n " +
-                            "Author: " + posts.get(j).getAuthor() + "\n " +
-                            "Date_updated: " + posts.get(j).getDate_updated() + "\n ");
-                }
+//                for (int j = 0; j < posts.size(); j++) {
+//                    Log.d(TAG, "onResponse: \n " +
+//                            "PostURL: " + posts.get(j).getPostURL() + "\n " +
+//                            "ThumbnailURL: " + posts.get(j).getThumhnailURL() + "\n " +
+//                            "TItle: " + posts.get(j).getTitle() + "\n " +
+//                            "Author: " + posts.get(j).getAuthor() + "\n " +
+//                            "Date_updated: " + posts.get(j).getDate_updated() + "\n ");
+//                }
+
+                ListView listView = (ListView) findViewById(R.id.listView);
+                CustomListAdapter customListAdapter = new CustomListAdapter(MainActivity.this, R.layout.card_layout_main, posts);
+                listView.setAdapter(customListAdapter);
             }
 
             @Override
