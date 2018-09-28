@@ -10,7 +10,7 @@ public interface FeedAPI {
     String BASE_URL ="https://reddit.com/r/";
 
     //Non-static feed name
-    @GET("/{feed_name}/.rss")
+    @GET("{feed_name}/.rss")
     Call<Feed> getFeed(@Path("feed_name") String feed_name);
     //Static URL for testing purposes
 //    @GET("earthporn/.rss")

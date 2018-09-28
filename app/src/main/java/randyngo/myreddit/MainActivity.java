@@ -97,14 +97,29 @@ public class MainActivity extends AppCompatActivity {
                         postContent.add(null);
                         Log.e(TAG, "onResponse: IndexOutOfBoundsException(thumbnail): " + e.getMessage());
                     }
+
                     int lastPostIndex = postContent.size() - 1;
-                    posts.add(new Post(
-                            entrys.get(i).getTitle(),
-                            entrys.get(i).getAuthor().getName(),
-                            entrys.get(i).getUpdated(),
-                            postContent.get(0),
-                            postContent.get(lastPostIndex)
-                    ));
+                    try {
+                        posts.add(new Post(
+                                entrys.get(i).getTitle(),
+                                entrys.get(i).getAuthor().getName(),
+                                entrys.get(i).getUpdated(),
+                                postContent.get(0),
+                                postContent.get(lastPostIndex)
+                        ));
+                    }
+                    catch (NullPointerException e) {
+                        posts.add(new Post(
+                                entrys.get(i).getTitle(),
+                                "None",
+                                entrys.get(i).getUpdated(),
+                                postContent.get(0),
+                                postContent.get(lastPostIndex)
+                        ));
+                        Log.e(TAG, "onResponse: NullPointerException: " + e.getMessage());
+                    }
+
+
                 }
 
 //                for (int j = 0; j < posts.size(); j++) {
