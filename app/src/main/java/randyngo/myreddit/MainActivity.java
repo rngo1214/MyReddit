@@ -3,6 +3,9 @@ package randyngo.myreddit;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -23,10 +26,36 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String BASE_URL = "https://reddit.com/r/";
 
+    private Button btnRefreshFeed;
+    private EditText mFeedName;
+    private String currentFeed;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.d(TAG, "onCreate: starting.");
+        btnRefreshFeed = (Button) findViewById(R.id.btnRefreshFeed);
+        mFeedName = (EditText) findViewById(R.id.etFeedName);
+
+        init();
+
+        btnRefreshFeed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String feedName = mFeedName.getText().toString();
+                if (!feedName.equals("")) {
+                    currentFeed = feedName;
+                    init();
+                }
+                else {
+                    init();
+                }
+            }
+        });
+    }
+
+    private void init() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(SimpleXmlConverterFactory.create())
@@ -34,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
         FeedAPI feedAPI = retrofit.create(FeedAPI.class);
 
-        Call<Feed> call = feedAPI.getFeed();
+        Call<Feed> call = feedAPI.getFeed(currentFeed);
 
         call.enqueue(new Callback<Feed>() {
             @Override
