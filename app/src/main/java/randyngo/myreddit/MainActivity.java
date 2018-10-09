@@ -1,9 +1,11 @@
 package randyngo.myreddit;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -79,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
 //                Log.d(TAG, "OnResponse: updated: " + entrys.get(0).getUpdated());
 //                Log.d(TAG, "OnResponse: title: " + entrys.get(0).getTitle());
 
-                ArrayList<Post> posts = new ArrayList<>();
+                final ArrayList<Post> posts = new ArrayList<>();
                 for (int i = 0; i < entrys.size(); i++) {
                     ExtractXML extractXML1 = new ExtractXML(entrys.get(i).getContent(), "<a href=");
                     List<String> postContent = extractXML1.start();
@@ -134,6 +136,15 @@ public class MainActivity extends AppCompatActivity {
                 ListView listView = (ListView) findViewById(R.id.listView);
                 CustomListAdapter customListAdapter = new CustomListAdapter(MainActivity.this, R.layout.card_layout_main, posts);
                 listView.setAdapter(customListAdapter);
+
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Log.d(TAG, "onItemClick: Clicked: " + posts.get(position).toString());
+                        Intent intent = new Intent(MainActivity.this, CommentsActivity.class);
+                        intent.putExtra("@string/post_url", posts.get(position).getPostURL());
+                    }
+                });
             }
 
             @Override
